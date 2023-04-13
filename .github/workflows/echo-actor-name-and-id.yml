@@ -13,4 +13,4 @@ jobs:
       - name: echo actor name and id
         run: |
           echo $GITHUB_ACTOR
-          echo GITHUB_ACTOR_ID
+          echo $GITHUB_ACTOR_ID
