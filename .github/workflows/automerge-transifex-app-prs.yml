@@ -8,6 +8,7 @@ on:
 
 jobs:
   automerge-transifex-app-pr:
+    runs-on: ubuntu-latest
     # Merges the pull request
     steps:
       - name: merge pull request
