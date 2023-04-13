@@ -17,5 +17,5 @@ jobs:
         #   # This token requires Write access to the openedx-translations repo
         #   GITHUB_TOKEN: ${{ secrets.EDX_TRANSIFEX_BOT_GITHUB_TOKEN }}
         run: |
-          echo ${{ env.GITHUB_ACTOR }}
-          echo ${{ env.GITHUB_ACTOR_ID }}
+          echo ${{ vars.GITHUB_ACTOR }}
+          echo ${{ vars.GITHUB_ACTOR_ID }}
