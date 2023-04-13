@@ -16,7 +16,7 @@ jobs:
         # env:
         #   # This token requires Write access to the openedx-translations repo
         #   GITHUB_TOKEN: ${{ secrets.EDX_TRANSIFEX_BOT_GITHUB_TOKEN }}
-        if: "${{ vars.GITHUB_ACTOR == brian-smith-tcril }}"
+        if: "${{ vars.GITHUB_ACTOR == 'brian-smith-tcril' }}"
         run: |
           echo $GITHUB_ACTOR
           echo $GITHUB_ACTOR_ID
