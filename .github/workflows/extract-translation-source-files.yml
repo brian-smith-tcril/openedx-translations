@@ -92,8 +92,6 @@ jobs:
           - xblock-sql-grader
           - xblock-submit-and-compare
 
-    if: ${{ github.event.inputs.python_repo == 'all' || matrix.repo == github.event.inputs.python_repo }}
-
     runs-on: ubuntu-latest
     continue-on-error: true
     needs: [setup-branch]
@@ -101,16 +99,19 @@ jobs:
     steps:
       # Clones the openedx-translations repo
       - name: clone openedx/openedx-translations
+        if: ${{ github.event.inputs.python_repo == 'all' || matrix.repo == github.event.inputs.python_repo }}
         uses: actions/checkout@v3
         with:
           ref: ${{ needs.setup-branch.outputs.branch }}
 
       # Installs gettext, a dependency for extracting translation source files in django
       - name: install gettext
+        if: ${{ github.event.inputs.python_repo == 'all' || matrix.repo == github.event.inputs.python_repo }}
         run: sudo apt install -y gettext
 
       # Clones the  repository
       - name: clone openedx/${{ matrix.repo }}
+        if: ${{ github.event.inputs.python_repo == 'all' || matrix.repo == github.event.inputs.python_repo }}
         uses: actions/checkout@v3
         with:
           repository: openedx/${{ matrix.repo }}
@@ -118,28 +119,33 @@ jobs:
 
       # Sets up Python
       - name: setup python
+        if: ${{ github.event.inputs.python_repo == 'all' || matrix.repo == github.event.inputs.python_repo }}
         uses: actions/setup-python@v4
         with:
           python-version: '3.8'
 
       # Installs Python requirements from translations.txt
       - name: install requirements
+        if: ${{ github.event.inputs.python_repo == 'all' || matrix.repo == github.event.inputs.python_repo }}
         run: pip install -r requirements/translations.txt
 
       # Extracts the translation source files
       - name: extract translation source files
+        if: ${{ github.event.inputs.python_repo == 'all' || matrix.repo == github.event.inputs.python_repo }}
         run: |
           cd translations/${{ matrix.repo }}
           make extract_translations
 
       # Validate compilation of translation source files
       - name: validate compilation of translation source files
+        if: ${{ github.event.inputs.python_repo == 'all' || matrix.repo == github.event.inputs.python_repo }}
         run: |
           cd translations/${{ matrix.repo }}
           django-admin compilemessages --locale en
 
       # git adds only the translation source files, found in conf/locale/en
       - name: git add the translation source files
+        if: ${{ github.event.inputs.python_repo == 'all' || matrix.repo == github.event.inputs.python_repo }}
         id: add-sources
         run: |
           # set identity
@@ -186,6 +192,7 @@ jobs:
 
       # Attempts to commit the translation source files if there is a difference
       - name: git commit the translation source files
+        if: ${{ github.event.inputs.python_repo == 'all' || matrix.repo == github.event.inputs.python_repo }}
         if: "${{ env.GIT_STATUS > 0 }}"
         run: |
           # commit the changes
