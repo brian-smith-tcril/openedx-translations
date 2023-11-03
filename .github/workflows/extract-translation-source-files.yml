@@ -92,7 +92,7 @@ jobs:
           - xblock-sql-grader
           - xblock-submit-and-compare
 
-    if: github.event.inputs.python_repo == 'all' || matrix.repo == github.event.inputs.python_repo
+    if: ${{ github.event.inputs.python_repo == 'all' || matrix.repo == github.event.inputs.python_repo }}
 
     runs-on: ubuntu-latest
     continue-on-error: true
