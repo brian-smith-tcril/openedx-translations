@@ -69,11 +69,7 @@ jobs:
       # using max-parallel to avoid git push/pull issues when running in parallel
       max-parallel: 1
       matrix:
-        repo: ${{ github.event.inputs.python_repo == 'all' && env.ALL_PYTHON_REPOS || github.event.inputs.python_repo == 'none' && [] || [github.event.inputs.python_repo] }}
-    
-    defaults:
-      env:
-        ALL_PYTHON_REPOS: '["AudioXBlock", "completion", "course-discovery", "credentials", "credentials-themes", "DoneXBlock", "edx-ace", "edx-bulk-grades", "edx-ora2", "edx-proctoring", "FeedbackXBlock", "RecommenderXBlock", "xblock-drag-and-drop-v2", "xblock-free-text-response", "xblock-google-drive", "xblock-image-explorer", "xblock-image-modal", "xblock-lti-consumer", "xblock-qualtrics-survey", "xblock-sql-grader", "xblock-submit-and-compare"]'
+        repo: ${{ github.event.inputs.python_repo == 'all' && ["AudioXBlock", "completion", "course-discovery", "credentials", "credentials-themes", "DoneXBlock", "edx-ace", "edx-bulk-grades", "edx-ora2", "edx-proctoring", "FeedbackXBlock", "RecommenderXBlock", "xblock-drag-and-drop-v2", "xblock-free-text-response", "xblock-google-drive", "xblock-image-explorer", "xblock-image-modal", "xblock-lti-consumer", "xblock-qualtrics-survey", "xblock-sql-grader", "xblock-submit-and-compare"] || github.event.inputs.python_repo == 'none' && [] || [github.event.inputs.python_repo] }}
 
     runs-on: ubuntu-latest
     continue-on-error: true
