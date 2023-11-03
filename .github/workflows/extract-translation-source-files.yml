@@ -217,7 +217,7 @@ jobs:
 
       # Attempts to commit the translation source files if there is a difference
       - name: git commit the translation source files
-        if: ${{ (github.event.schedule || github.event.inputs.repo == 'all' || matrix.repo == github.event.inputs.repo) && env.GIT_STATUS > 0 }}"
+        if: ${{ (github.event.schedule || github.event.inputs.repo == 'all' || matrix.repo == github.event.inputs.repo) && env.GIT_STATUS > 0 }}
         run: |
           # commit the changes
           git commit -m "chore: add extracted translation source files from ${{ matrix.repo }}"
@@ -317,7 +317,7 @@ jobs:
           echo "GIT_STATUS=$(git status $TRANSIFEX_JSON_PATH -s | wc -l)" >> $GITHUB_ENV
       # Attempts to commit the translation source files if there is a difference
       - name: git commit the translation source files
-        if: ${{ (github.event.schedule || github.event.inputs.repo == 'all' || matrix.repo == github.event.inputs.repo) && env.GIT_STATUS > 0 }}"
+        if: ${{ (github.event.schedule || github.event.inputs.repo == 'all' || matrix.repo == github.event.inputs.repo) && env.GIT_STATUS > 0 }}
         run: |
           # commit the changes
           git commit -m "chore: add extracted translation source files from ${{ matrix.repo }}"
@@ -398,7 +398,7 @@ jobs:
 
       # Attempts to commit the translation source files if there is a difference
       - name: git commit the translation source files
-        if: ${{ (github.event.schedule || github.event.inputs.repo == 'all' || matrix.repository_config.repo == github.event.inputs.repo) && env.GIT_STATUS > 0 }}"
+        if: ${{ (github.event.schedule || github.event.inputs.repo == 'all' || matrix.repository_config.repo == github.event.inputs.repo) && env.GIT_STATUS > 0 }}
         run: |
           # commit the changes
           git commit -m "chore: add extracted translation source files from ${{ matrix.repository_config.repo }}"
