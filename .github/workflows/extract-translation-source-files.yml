@@ -107,7 +107,7 @@ jobs:
       # Installs gettext, a dependency for extracting translation source files in django
       - name: install gettext
         if: ${{ github.event.inputs.python_repo == 'all' || matrix.repo == github.event.inputs.python_repo }}
-        run: sudo apt install -y gettext
+        run: sudo apt install -y gettext; echo github.event.schedule
 
       # Clones the  repository
       - name: clone openedx/${{ matrix.repo }}
