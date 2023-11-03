@@ -6,6 +6,37 @@ name: Extract Translation Source Files
 
 on:
   workflow_dispatch:    # by request
+    inputs:
+      python_repo:
+        description: 'Python repositories to extract translation source files from'
+        required: true
+        default: 'all'
+        type: choice
+        options:
+          - all
+          - none
+          - AudioXBlock
+          - completion
+          - course-discovery
+          - credentials
+          - credentials-themes
+          - DoneXBlock
+          - edx-ace
+          - edx-bulk-grades
+          - edx-ora2
+          - edx-proctoring
+          - FeedbackXBlock
+          - RecommenderXBlock
+          - xblock-drag-and-drop-v2
+          - xblock-free-text-response
+          - xblock-google-drive
+          - xblock-image-explorer
+          - xblock-image-modal
+          - xblock-lti-consumer
+          - xblock-qualtrics-survey
+          - xblock-sql-grader
+          - xblock-submit-and-compare          
+
   schedule:
     - cron: '0 0 * * *'  # every day at midnight
 
@@ -38,28 +69,10 @@ jobs:
       # using max-parallel to avoid git push/pull issues when running in parallel
       max-parallel: 1
       matrix:
-        repo:
-          - AudioXBlock
-          - completion
-          - course-discovery
-          - credentials
-          - credentials-themes
-          - DoneXBlock
-          - edx-ace
-          - edx-bulk-grades
-          - edx-ora2
-          - edx-proctoring
-          - FeedbackXBlock
-          - RecommenderXBlock
-          - xblock-drag-and-drop-v2
-          - xblock-free-text-response
-          - xblock-google-drive
-          - xblock-image-explorer
-          - xblock-image-modal
-          - xblock-lti-consumer
-          - xblock-qualtrics-survey
-          - xblock-sql-grader
-          - xblock-submit-and-compare
+        repo: ${{ github.event.inputs.python_repo == 'all' && env.ALL_PYTHON_REPOS || github.event.inputs.python_repo == 'none' && [] || [github.event.inputs.python_repo] }}
+    
+    env:
+      ALL_PYTHON_REPOS: '["AudioXBlock", "completion", "course-discovery", "credentials", "credentials-themes", "DoneXBlock", "edx-ace", "edx-bulk-grades", "edx-ora2", "edx-proctoring", "FeedbackXBlock", "RecommenderXBlock", "xblock-drag-and-drop-v2", "xblock-free-text-response", "xblock-google-drive", "xblock-image-explorer", "xblock-image-modal", "xblock-lti-consumer", "xblock-qualtrics-survey", "xblock-sql-grader", "xblock-submit-and-compare"]'
 
     runs-on: ubuntu-latest
     continue-on-error: true
