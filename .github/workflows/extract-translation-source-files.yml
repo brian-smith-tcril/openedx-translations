@@ -272,7 +272,7 @@ jobs:
         repo: ${{ fromJson(needs.setup-matrix.outputs.js_repos) }}
     runs-on: ubuntu-latest
     continue-on-error: true
-    needs: [setup-branch, python-translations]
+    needs: [setup-branch, setup-matrix, python-translations]
     steps:
       # Clones the openedx-translations repo
       - name: clone openedx/openedx-translations
@@ -341,7 +341,7 @@ jobs:
 
     runs-on: ubuntu-latest
     continue-on-error: true
-    needs: [setup-branch]
+    needs: [setup-branch, setup-matrix, js-translations]
 
     steps:
       # Clones the openedx-translations repo
