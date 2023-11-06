@@ -26,7 +26,8 @@ selected_repo="AudioXBlock"
 echo '["'$selected_repo'"]'
 echo '["'$selected_repo'"]' | jq --raw-output '.'
 echo "hi"
-echo "python_repos=$(echo '["'$selected_repo'"]' | jq -c '.')"
+python_repos=$(echo '["'$selected_repo'"]' | jq -c '.')
+echo $python_repos
 echo "bye"
 
 if [[ -z $selected_repo ]]; then
