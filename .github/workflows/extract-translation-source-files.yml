@@ -9,63 +9,58 @@ on:
     inputs:
       repo:
         description: 'Repository to extract translation source files from'
-        required: true
-        default: 'all'
-        type: choice
-        options:
-          - all
-          - AudioXBlock
-          - completion
-          - course-discovery
-          - credentials
-          - credentials-themes
-          - DoneXBlock
-          - edx-ace
-          - edx-bulk-grades
-          - edx-ora2
-          - edx-proctoring
-          - FeedbackXBlock
-          - RecommenderXBlock
-          - xblock-drag-and-drop-v2
-          - xblock-free-text-response
-          - xblock-google-drive
-          - xblock-image-explorer
-          - xblock-image-modal
-          - xblock-lti-consumer
-          - xblock-qualtrics-survey
-          - xblock-sql-grader
-          - xblock-submit-and-compare
-          - frontend-app-admin-portal
-          - frontend-app-publisher
-          - frontend-app-account
-          - frontend-app-authn
-          - frontend-app-communications
-          - frontend-app-course-authoring
-          - frontend-app-discussions
-          - frontend-app-ecommerce
-          - frontend-app-enterprise-public-catalog
-          - frontend-app-gradebook
-          - frontend-app-learner-dashboard
-          - frontend-app-learner-record
-          - frontend-app-learning
-          - frontend-app-library-authoring
-          - frontend-app-ora-grading
-          - frontend-app-payment
-          - frontend-app-profile
-          - frontend-app-program-console
-          - frontend-app-support-tools
-          - frontend-component-footer
-          - frontend-component-header
-          - frontend-lib-content-components
-          - frontend-lib-special-exams
-          - paragon
-          - studio-frontend
-          - tutor-contrib-aspects
+        required: false
+        type: string
 
   schedule:
     - cron: '0 0 * * *'  # every day at midnight
 
 jobs:
+  setup-matrix:
+    runs-on: ubuntu-latest
+
+    steps:
+      - id: generate-repo-matrix
+        run: |
+          all_python_repos=(
+            "AudioXBlock"
+            "completion"
+            "course-discovery"
+            "credentials"
+            "credentials-themes"
+            "DoneXBlock"
+            "edx-ace"
+            "edx-bulk-grades"
+            "edx-ora2"
+            "edx-proctoring"
+            "FeedbackXBlock"
+            "RecommenderXBlock"
+            "xblock-drag-and-drop-v2"
+            "xblock-free-text-response"
+            "xblock-google-drive"
+            "xblock-image-explorer"
+            "xblock-image-modal"
+            "xblock-lti-consumer"
+            "xblock-qualtrics-survey"
+            "xblock-sql-grader"
+            "xblock-submit-and-compare"
+          )
+
+          selected_repo="${{ github.event.inputs.repo }}"
+
+          if [[ -z $selected_repo ]]; then
+            echo "python_repos=$(echo '${all_python_repos[@]}' | jq --raw-output '.')" >> $GITHUB_OUTPUT
+          elif [[ " ${all_python_repos[@]} " =~ " $selected_repo " ]]; then
+            echo "python_repos=$(echo '["'$selected_repo'"]' | jq --raw-output '.')" >> $GITHUB_OUTPUT
+          else
+            echo "python_repos=$(echo '[]' | jq --raw-output '.')" >> $GITHUB_OUTPUT
+          fi
+
+    outputs:
+      python-repos: ${{ steps.generate-python-repo-matrix.python_repos }}
+      js-repos: ${{  }}
+      generic-repos: ${{  }}
+
   setup-branch:
     runs-on: ubuntu-latest
     outputs:
@@ -90,36 +85,15 @@ jobs:
         git push --set-upstream origin ${{ steps.dynamic_branch.outputs.branch }}
 
   python-translations:
+    needs: [setup-branch, setup-matrix]
     strategy:
       # using max-parallel to avoid git push/pull issues when running in parallel
       max-parallel: 1
       matrix:
-        repo:
-          - AudioXBlock
-          - completion
-          - course-discovery
-          - credentials
-          - credentials-themes
-          - DoneXBlock
-          - edx-ace
-          - edx-bulk-grades
-          - edx-ora2
-          - edx-proctoring
-          - FeedbackXBlock
-          - RecommenderXBlock
-          - xblock-drag-and-drop-v2
-          - xblock-free-text-response
-          - xblock-google-drive
-          - xblock-image-explorer
-          - xblock-image-modal
-          - xblock-lti-consumer
-          - xblock-qualtrics-survey
-          - xblock-sql-grader
-          - xblock-submit-and-compare
+        repo: ${{ fromJson(needs.setup-matrix.outputs.python_repos) }}
 
     runs-on: ubuntu-latest
     continue-on-error: true
-    needs: [setup-branch]
 
     steps:
       # Clones the openedx-translations repo
