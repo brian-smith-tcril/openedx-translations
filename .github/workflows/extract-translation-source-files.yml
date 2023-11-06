@@ -49,12 +49,15 @@ jobs:
           selected_repo="${{ github.event.inputs.repo }}"
 
           if [[ -z $selected_repo ]]; then
+            echo "HELLO1"
             echo "python_repos=$(echo '${all_python_repos[@]}' | jq --raw-output '.')"
             echo "python_repos=$(echo '${all_python_repos[@]}' | jq --raw-output '.')" >> $GITHUB_OUTPUT
           elif [[ " ${all_python_repos[@]} " =~ " $selected_repo " ]]; then
+            echo "HELLO2"
             echo "python_repos=$(echo '['$selected_repo']' | jq --raw-output '.')"
             echo "python_repos=$(echo '['$selected_repo']' | jq --raw-output '.')" >> $GITHUB_OUTPUT
           else
+            echo "HELLO3"
             echo "python_repos=$(echo '[]' | jq --raw-output '.')"
             echo "python_repos=$(echo '[]' | jq --raw-output '.')" >> $GITHUB_OUTPUT
           fi
