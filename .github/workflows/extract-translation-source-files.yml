@@ -25,7 +25,10 @@ jobs:
         with:
           script: |
             const selectedRepo = core.getInput('repo');
-            console.log(selectedRepo);
+            core.info(selectedRepo);
+            if (!selectedRepo) {
+              core.warning('myInput was not set');
+            }
             
             allPythonRepos = [
               "AudioXBlock",
