@@ -54,8 +54,9 @@ jobs:
             echo "python_repos=$(echo '${all_python_repos[@]}' | jq --raw-output '.')" >> $GITHUB_OUTPUT
           elif [[ " ${all_python_repos[@]} " =~ " $selected_repo " ]]; then
             echo "HELLO2"
-            echo "python_repos="$(jq -c -n '$ARGS.positional' --args -- "$selected_repo")""
-            echo "python_repos="$(jq -c -n '$ARGS.positional' --args -- "$selected_repo")"" >> $GITHUB_OUTPUT
+            repoJson="$(jq -c -n '$ARGS.positional' --args -- "$selected_repo")"
+            echo "python_repos=$repoJson"
+            echo "python_repos=$repoJson" >> $GITHUB_OUTPUT
           else
             echo "HELLO3"
             echo "python_repos=$(echo '[]' | jq --raw-output '.')"
