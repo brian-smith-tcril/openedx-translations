@@ -56,7 +56,8 @@ jobs:
             echo "HELLO2"
             repoJson="$(jq -c -n '$ARGS.positional' --args -- "$selected_repo")"
             echo "python_repos=$repoJson"
-            echo "python_repos=$repoJson" >> $GITHUB_OUTPUT
+            # echo "python_repos=$repoJson" >> $GITHUB_OUTPUT
+            echo "::set-output name=python_repos::$repoJson"
           else
             echo "HELLO3"
             echo "python_repos=$(echo '[]' | jq --raw-output '.')"
