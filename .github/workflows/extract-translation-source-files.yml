@@ -63,7 +63,7 @@ jobs:
           fi
 
     outputs:
-      python-repos: ${{ steps.generate-repo-matrix.python_repos }}
+      python-repos: ${{ steps.generate-repo-matrix.outputs.python_repos }}
       # js-repos: ${{  }}
       # generic-repos: ${{  }}
 
