@@ -20,56 +20,46 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - id: generate-repo-matrix
-        run: |
-          all_python_repos=(
-            "AudioXBlock"
-            "completion"
-            "course-discovery"
-            "credentials"
-            "credentials-themes"
-            "DoneXBlock"
-            "edx-ace"
-            "edx-bulk-grades"
-            "edx-ora2"
-            "edx-proctoring"
-            "FeedbackXBlock"
-            "RecommenderXBlock"
-            "xblock-drag-and-drop-v2"
-            "xblock-free-text-response"
-            "xblock-google-drive"
-            "xblock-image-explorer"
-            "xblock-image-modal"
-            "xblock-lti-consumer"
-            "xblock-qualtrics-survey"
-            "xblock-sql-grader"
-            "xblock-submit-and-compare"
-          )
+      - uses: actions/github-script@v6
+        id: generate-repo-matrix
+        with:
+          script: |
+            const selectedRepo = core.getInput('repo');
+            
+            allPythonRepos = [
+              "AudioXBlock",
+              "completion",
+              "course-discovery",
+              "credentials",
+              "credentials-themes",
+              "DoneXBlock",
+              "edx-ace",
+              "edx-bulk-grades",
+              "edx-ora2",
+              "edx-proctoring",
+              "FeedbackXBlock",
+              "RecommenderXBlock",
+              "xblock-drag-and-drop-v2",
+              "xblock-free-text-response",
+              "xblock-google-drive",
+              "xblock-image-explorer",
+              "xblock-image-modal",
+              "xblock-lti-consumer",
+              "xblock-qualtrics-survey",
+              "xblock-sql-grader",
+              "xblock-submit-and-compare",
+            ];
 
-          selected_repo="${{ github.event.inputs.repo }}"
-
-          if [[ -z $selected_repo ]]; then
-            echo "HELLO1"
-            echo "python_repos=$(echo '${all_python_repos[@]}' | jq --raw-output '.')"
-            echo "python_repos=$(echo '${all_python_repos[@]}' | jq --raw-output '.')" >> $GITHUB_OUTPUT
-          elif [[ " ${all_python_repos[@]} " =~ " $selected_repo " ]]; then
-            echo "HELLO2"
-            repoJson="$(jq -c -n '$ARGS.positional' --args -- "$selected_repo")"
-            echo "python_repos=$repoJson"
-            # echo "python_repos=$repoJson" >> $GITHUB_OUTPUT
-            echo "::set-output name=python_repos::$repoJson"
-          else
-            echo "HELLO3"
-            echo "python_repos=$(echo '[]' | jq --raw-output '.')"
-            echo "python_repos=$(echo '[]' | jq --raw-output '.')" >> $GITHUB_OUTPUT
-          fi
-
-          echo "hi"
-          echo ${{ steps.generate-repo-matrix.outputs.python_repos }}
-          echo "bye"
+            if (selectedRepo === '') {
+              core.setOutput('pythonRepos', allPythonRepos);
+            } else if (allPythonRepos.includes(selectedRepo)) {
+              core.setOutput('pythonRepos', [selectedRepo]);
+            } else {
+              core.setOutput('pythonRepos', []);
+            }
 
     outputs:
-      python-repos: ${{ steps.generate-repo-matrix.outputs.python_repos }}
+      python-repos: ${{ steps.generate-repo-matrix.outputs.pythonRepos }}
       # js-repos: ${{  }}
       # generic-repos: ${{  }}
 
