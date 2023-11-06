@@ -26,7 +26,10 @@ selected_repo="AudioXBlock"
 echo '["'$selected_repo'"]'
 echo '["'$selected_repo'"]' | jq --raw-output '.'
 echo "hi"
-python_repos=$(echo '["'$selected_repo'"]' | jq -c '.')
+# python_repos=$(echo '["'$selected_repo'"]')
+python_repos="$(jq -c -n '$ARGS.positional' --args -- "$selected_repo")"
+echo $python_repos
+python_repos="$(jq -c -n '$ARGS.positional' --args -- "${all_python_repos[@]}")"
 echo $python_repos
 echo "bye"
 
@@ -36,8 +39,8 @@ if [[ -z $selected_repo ]]; then
     echo "python_repos=$(echo '${all_python_repos[@]}' | jq --raw-output '.')" >> $GITHUB_OUTPUT
 elif [[ " ${all_python_repos[@]} " =~ " $selected_repo " ]]; then
     echo "HELLO2"
-    echo "python_repos=$(echo '["'$selected_repo'"]' | jq --raw-output '.')"
-    echo "python_repos=$(echo '["'$selected_repo'"]' | jq --raw-output '.')" >> $GITHUB_OUTPUT
+    echo "python_repos="$(jq -c -n '$ARGS.positional' --args -- "$selected_repo")""
+    echo "python_repos="$(jq -c -n '$ARGS.positional' --args -- "$selected_repo")"" >> $GITHUB_OUTPUT
 else
     echo "HELLO3"
     echo "python_repos=$(echo '[]' | jq --raw-output '.')"
