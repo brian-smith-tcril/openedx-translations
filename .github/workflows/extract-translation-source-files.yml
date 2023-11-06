@@ -21,7 +21,7 @@ jobs:
 
     steps:
       - uses: actions/github-script@v6
-        id: generate-repo-matrix
+        id: generate_repo_matrix
         with:
           script: |
             const selectedRepo = core.getInput('repo');
@@ -59,7 +59,7 @@ jobs:
             }
 
     outputs:
-      python-repos: ${{ steps.generate-repo-matrix.outputs.pythonRepos }}
+      python_repos: ${{ steps.generate_repo_matrix.outputs.pythonRepos }}
       # js-repos: ${{  }}
       # generic-repos: ${{  }}
 
