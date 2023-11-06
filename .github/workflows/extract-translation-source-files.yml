@@ -24,7 +24,11 @@ jobs:
         id: generate_repo_matrix
         with:
           script: |
-            const selectedRepo = core.getInput('repo');
+            // Need to use a workaround until https://github.com/actions/toolkit/issues/1576 is fixed
+            // const selectedRepo = core.getInput('repo');
+
+            const selectedRepo = ${{ toJSON(github.event.inputs.repo) }};
+            
             core.info(selectedRepo);
             if (!selectedRepo) {
               core.warning('myInput was not set');
