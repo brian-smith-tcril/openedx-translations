@@ -54,7 +54,7 @@ jobs:
             echo "python_repos=$(echo '${all_python_repos[@]}' | jq --raw-output '.')" >> $GITHUB_OUTPUT
           elif [[ " ${all_python_repos[@]} " =~ " $selected_repo " ]]; then
             echo "HELLO2"
-            echo "python_repos=${{ toJson('["'$selected_repo'"]') }}
+            echo "python_repos=$(echo '["'$selected_repo'"]' | jq -c '.')"
             echo "python_repos=$(echo '["'$selected_repo'"]' | jq -c '.')" >> $GITHUB_OUTPUT
           else
             echo "HELLO3"
@@ -62,8 +62,12 @@ jobs:
             echo "python_repos=$(echo '[]' | jq --raw-output '.')" >> $GITHUB_OUTPUT
           fi
 
+          echo "hi"
+          echo ${{ steps.generate-repo-matrix.outputs.python_repos }}
+          echo "bye"
+
     outputs:
-      python-repos: ${{ toJson(steps.generate-repo-matrix.outputs.python_repos) }}
+      python-repos: ${{ steps.generate-repo-matrix.outputs.python_repos }}
       # js-repos: ${{  }}
       # generic-repos: ${{  }}
 
