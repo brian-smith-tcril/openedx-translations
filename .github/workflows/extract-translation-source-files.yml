@@ -345,7 +345,7 @@ jobs:
   # assumes that a `extract_translations` make target exists and will create
   # a transifex_input.yaml file in the root of the site.
   generic-translations:
-    if: ${{ fromJson(needs.setup-matrix.outputs.has_generic_repos) == true }}
+    if: ${{ !cancelled() && fromJson(needs.setup-matrix.outputs.has_generic_repos) == true }}
     strategy:
       # using max-parallel to avoid git push/pull issues when running in parallel
       max-parallel: 1
