@@ -87,6 +87,10 @@ jobs:
               },
             ]
 
+            core.setOutput('hasPythonRepos', true);
+            core.setOutput('hasJavascriptRepos', true);
+            core.setOutput('hasGenericRepos', true);
+
             if (selectedRepo === '') {
               core.setOutput('pythonRepos', allPythonRepos);
               core.setOutput('javascriptRepos', allJavascriptRepos);
@@ -98,23 +102,29 @@ jobs:
               core.setOutput('pythonRepos', [selectedRepo]);
             } else {
               core.setOutput('pythonRepos', []);
+              core.setOutput('hasPythonRepos', false);
             }
 
             if (allJavascriptRepos.includes(selectedRepo)) {
               core.setOutput('javascriptRepos', [selectedRepo]);
             } else {
               core.setOutput('javascriptRepos', []);
+              core.setOutput('hasJavascriptRepos', false);
             }
 
             if (allGenericRepos.some(repoConfig => repoConfig.name === selectedRepo)) {
               core.setOutput('genericRepos', [selectedRepo]);
             } else {
               core.setOutput('genericRepos', []);
+              core.setOutput('hasGenericRepos', false);
             }
 
     outputs:
+      has_python_repos: ${{ steps.generate_repo_matrix.outputs.hasPythonRepos }}
       python_repos: ${{ steps.generate_repo_matrix.outputs.pythonRepos }}
+      has_js_repos: ${{ steps.generate_repo_matrix.outputs.hasJavascriptRepos }}
       js_repos: ${{ steps.generate_repo_matrix.outputs.javascriptRepos }}
+      has_generic_repos: ${{ steps.generate_repo_matrix.outputs.hasGenericRepos }}
       generic_repos: ${{ steps.generate_repo_matrix.outputs.genericRepos }}
 
   setup-branch:
@@ -141,6 +151,7 @@ jobs:
         git push --set-upstream origin ${{ steps.dynamic_branch.outputs.branch }}
 
   python-translations:
+    if: ${{ needs.setup-matrix.outputs.has_python_repos }}
     needs: [setup-branch, setup-matrix]
     strategy:
       # using max-parallel to avoid git push/pull issues when running in parallel
@@ -255,6 +266,7 @@ jobs:
           git push
 
   js-translations:
+    if: ${{ needs.setup-matrix.outputs.has_js_repos }}
     strategy:
       # using max-parallel to avoid git push/pull issues when running in parallel
       max-parallel: 1
@@ -333,6 +345,7 @@ jobs:
   # assumes that a `extract_translations` make target exists and will create
   # a transifex_input.yaml file in the root of the site.
   generic-translations:
+    if: ${{ needs.setup-matrix.outputs.has_generic_repos }}
     strategy:
       # using max-parallel to avoid git push/pull issues when running in parallel
       max-parallel: 1
