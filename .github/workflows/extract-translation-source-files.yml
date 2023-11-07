@@ -112,7 +112,7 @@ jobs:
               core.setOutput('hasJavascriptRepos', false);
             }
 
-            if (allGenericRepos.some(repoConfig => repoConfig.name === selectedRepo)) {
+            if (allGenericRepos.some(repoConfig => repoConfig.repo === selectedRepo)) {
               core.setOutput('genericRepos', [selectedRepo]);
               core.warning('selected generic');
             } else {
