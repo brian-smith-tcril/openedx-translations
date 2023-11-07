@@ -151,7 +151,7 @@ jobs:
         git push --set-upstream origin ${{ steps.dynamic_branch.outputs.branch }}
 
   python-translations:
-    if: ${{ needs.setup-matrix.outputs.has_python_repos }}
+    if: ${{ fromJson(needs.setup-matrix.outputs.has_python_repos) == true }}
     needs: [setup-branch, setup-matrix]
     strategy:
       # using max-parallel to avoid git push/pull issues when running in parallel
@@ -266,7 +266,7 @@ jobs:
           git push
 
   js-translations:
-    if: ${{ needs.setup-matrix.outputs.has_js_repos }}
+    if: ${{ fromJson(needs.setup-matrix.outputs.has_js_repos) == true }}
     strategy:
       # using max-parallel to avoid git push/pull issues when running in parallel
       max-parallel: 1
@@ -345,7 +345,7 @@ jobs:
   # assumes that a `extract_translations` make target exists and will create
   # a transifex_input.yaml file in the root of the site.
   generic-translations:
-    if: ${{ needs.setup-matrix.outputs.has_generic_repos }}
+    if: ${{ fromJson(needs.setup-matrix.outputs.has_generic_repos) == true }}
     strategy:
       # using max-parallel to avoid git push/pull issues when running in parallel
       max-parallel: 1
