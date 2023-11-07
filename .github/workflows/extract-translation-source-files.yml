@@ -114,9 +114,11 @@ jobs:
 
             if (allGenericRepos.some(repoConfig => repoConfig.name === selectedRepo)) {
               core.setOutput('genericRepos', [selectedRepo]);
+              core.warning('selected generic');
             } else {
               core.setOutput('genericRepos', []);
               core.setOutput('hasGenericRepos', false);
+              core.warning('no generic');
             }
 
     outputs:
