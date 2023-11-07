@@ -114,11 +114,9 @@ jobs:
 
             if (allGenericRepos.some(repoConfig => repoConfig.repo === selectedRepo)) {
               core.setOutput('genericRepos', [selectedRepo]);
-              core.warning('selected generic');
             } else {
               core.setOutput('genericRepos', []);
               core.setOutput('hasGenericRepos', false);
-              core.warning('no generic');
             }
 
     outputs:
@@ -167,19 +165,16 @@ jobs:
     steps:
       # Clones the openedx-translations repo
       - name: clone openedx/openedx-translations
-        if: ${{ github.event.schedule || github.event.inputs.repo == 'all' || matrix.repo == github.event.inputs.repo }}
         uses: actions/checkout@v3
         with:
           ref: ${{ needs.setup-branch.outputs.branch }}
 
       # Installs gettext, a dependency for extracting translation source files in django
       - name: install gettext
-        if: ${{ github.event.schedule || github.event.inputs.repo == 'all' || matrix.repo == github.event.inputs.repo }}
         run: sudo apt install -y gettext
 
       # Clones the  repository
       - name: clone openedx/${{ matrix.repo }}
-        if: ${{ github.event.schedule || github.event.inputs.repo == 'all' || matrix.repo == github.event.inputs.repo }}
         uses: actions/checkout@v3
         with:
           repository: openedx/${{ matrix.repo }}
@@ -187,33 +182,28 @@ jobs:
 
       # Sets up Python
       - name: setup python
-        if: ${{ github.event.schedule || github.event.inputs.repo == 'all' || matrix.repo == github.event.inputs.repo }}
         uses: actions/setup-python@v4
         with:
           python-version: '3.8'
 
       # Installs Python requirements from translations.txt
       - name: install requirements
-        if: ${{ github.event.schedule || github.event.inputs.repo == 'all' || matrix.repo == github.event.inputs.repo }}
         run: pip install -r requirements/translations.txt
 
       # Extracts the translation source files
       - name: extract translation source files
-        if: ${{ github.event.schedule || github.event.inputs.repo == 'all' || matrix.repo == github.event.inputs.repo }}
         run: |
           cd translations/${{ matrix.repo }}
           make extract_translations
 
       # Validate compilation of translation source files
       - name: validate compilation of translation source files
-        if: ${{ github.event.schedule || github.event.inputs.repo == 'all' || matrix.repo == github.event.inputs.repo }}
         run: |
           cd translations/${{ matrix.repo }}
           django-admin compilemessages --locale en
 
       # git adds only the translation source files, found in conf/locale/en
       - name: git add the translation source files
-        if: ${{ github.event.schedule || github.event.inputs.repo == 'all' || matrix.repo == github.event.inputs.repo }}
         id: add-sources
         run: |
           # set identity
@@ -260,7 +250,6 @@ jobs:
 
       # Attempts to commit the translation source files if there is a difference
       - name: git commit the translation source files
-        if: ${{ (github.event.schedule || github.event.inputs.repo == 'all' || matrix.repo == github.event.inputs.repo) && env.GIT_STATUS > 0 }}
         run: |
           # commit the changes
           git commit -m "chore: add extracted translation source files from ${{ matrix.repo }}"
@@ -290,14 +279,12 @@ jobs:
     steps:
       # Clones the openedx-translations repo
       - name: clone openedx/openedx-translations
-        if: ${{ github.event.schedule || github.event.inputs.repo == 'all' || matrix.repo == github.event.inputs.repo }}
         uses: actions/checkout@v3
         with:
           ref: ${{ needs.setup-branch.outputs.branch }}
 
       # Clones the  repository
       - name: clone openedx/${{ matrix.repo }}
-        if: ${{ github.event.schedule || github.event.inputs.repo == 'all' || matrix.repo == github.event.inputs.repo }}
         uses: actions/checkout@v3
         with:
           repository: openedx/${{ matrix.repo }}
@@ -305,20 +292,17 @@ jobs:
 
       # Sets up node/npm
       - name: setup node
-        if: ${{ github.event.schedule || github.event.inputs.repo == 'all' || matrix.repo == github.event.inputs.repo }}
         uses: actions/setup-node@v3
         with:
           node-version: 16
 
       # Extracts the translation source files
       - name: extract translation source files
-        if: ${{ github.event.schedule || github.event.inputs.repo == 'all' || matrix.repo == github.event.inputs.repo }}
         run: |
           cd translations/${{ matrix.repo }}
           make extract_translations
       # git adds only the translation source files, found in src/i18n/transifex_input.json
       - name: git add the translation source files
-        if: ${{ github.event.schedule || github.event.inputs.repo == 'all' || matrix.repo == github.event.inputs.repo }}
         id: add-sources
         run: |
           # set identity
@@ -336,7 +320,6 @@ jobs:
           echo "GIT_STATUS=$(git status $TRANSIFEX_JSON_PATH -s | wc -l)" >> $GITHUB_ENV
       # Attempts to commit the translation source files if there is a difference
       - name: git commit the translation source files
-        if: ${{ (github.event.schedule || github.event.inputs.repo == 'all' || matrix.repo == github.event.inputs.repo) && env.GIT_STATUS > 0 }}
         run: |
           # commit the changes
           git commit -m "chore: add extracted translation source files from ${{ matrix.repo }}"
@@ -361,14 +344,12 @@ jobs:
     steps:
       # Clones the openedx-translations repo
       - name: clone openedx/openedx-translations
-        if: ${{ github.event.schedule || github.event.inputs.repo == 'all' || matrix.repository_config.repo == github.event.inputs.repo }}
         uses: actions/checkout@v3
         with:
           ref: ${{ needs.setup-branch.outputs.branch }}
 
       # Clones the  repository
       - name: clone openedx/${{ matrix.repository_config.repo }}
-        if: ${{ github.event.schedule || github.event.inputs.repo == 'all' || matrix.repository_config.repo == github.event.inputs.repo }}
         uses: actions/checkout@v3
         with:
           repository: openedx/${{ matrix.repository_config.repo }}
@@ -376,19 +357,16 @@ jobs:
 
       # Sets up Python
       - name: setup python
-        if: ${{ github.event.schedule || github.event.inputs.repo == 'all' || matrix.repository_config.repo == github.event.inputs.repo }}
         uses: actions/setup-python@v4
         with:
           python-version: '3.8'
 
       # Installs Python requirements from translations.txt
       - name: install requirements
-        if: ${{ github.event.schedule || github.event.inputs.repo == 'all' || matrix.repository_config.repo == github.event.inputs.repo }}
         run: pip install -r requirements/translations.txt
 
       # Extracts the translation source files
       - name: extract translation source files
-        if: ${{ github.event.schedule || github.event.inputs.repo == 'all' || matrix.repository_config.repo == github.event.inputs.repo }}
         run: |
           cd translations/${{ matrix.repository_config.repo }}
           make extract_translations
@@ -396,7 +374,6 @@ jobs:
       # git adds only the translation source file transifex_input.yaml from
       # the repo root.
       - name: git add the translation source files
-        if: ${{ github.event.schedule || github.event.inputs.repo == 'all' || matrix.repository_config.repo == github.event.inputs.repo }}
         id: add-sources
         run: |
           # set identity
@@ -416,7 +393,6 @@ jobs:
 
       # Attempts to commit the translation source files if there is a difference
       - name: git commit the translation source files
-        if: ${{ (github.event.schedule || github.event.inputs.repo == 'all' || matrix.repository_config.repo == github.event.inputs.repo) && env.GIT_STATUS > 0 }}
         run: |
           # commit the changes
           git commit -m "chore: add extracted translation source files from ${{ matrix.repository_config.repo }}"
