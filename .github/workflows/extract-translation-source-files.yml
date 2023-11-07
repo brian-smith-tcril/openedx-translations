@@ -8,7 +8,7 @@ on:
   workflow_dispatch:    # by request
     inputs:
       repo:
-        description: 'Repository to extract translation source files from'
+        description: 'Repository to extract translation source files from (leave blank to run all)'
         required: false
         type: string
 
