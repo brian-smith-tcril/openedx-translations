@@ -266,7 +266,7 @@ jobs:
           git push
 
   js-translations:
-    if: ${{ "!cancelled() && fromJson(needs.setup-matrix.outputs.has_js_repos) == true }}
+    if: ${{ !cancelled() && fromJson(needs.setup-matrix.outputs.has_js_repos) == true }}
     strategy:
       # using max-parallel to avoid git push/pull issues when running in parallel
       max-parallel: 1
