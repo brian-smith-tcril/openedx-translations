@@ -12,6 +12,11 @@ asttokens==2.4.1
     # via
     #   -r requirements/translations.txt
     #   transifex-python
+babel==2.16.0
+    # via
+    #   -r requirements/translations.txt
+    #   enmerkar
+    #   enmerkar-underscore
 certifi==2024.8.30
     # via
     #   -r requirements/translations.txt
@@ -31,7 +36,15 @@ django==4.2.16
     #   -c https://raw.githubusercontent.com/edx/edx-lint/master/edx_lint/files/common_constraints.txt
     #   -r requirements/translations.txt
     #   edx-i18n-tools
+    #   enmerkar
+    #   enmerkar-underscore
 edx-i18n-tools==1.6.2
+    # via -r requirements/translations.txt
+enmerkar==0.7.1
+    # via
+    #   -r requirements/translations.txt
+    #   enmerkar-underscore
+enmerkar-underscore==2.3.0
     # via -r requirements/translations.txt
 future==1.0.0
     # via

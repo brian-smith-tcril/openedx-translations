@@ -8,6 +8,10 @@ asgiref==3.8.1
     # via django
 asttokens==2.4.1
     # via transifex-python
+babel==2.16.0
+    # via
+    #   enmerkar
+    #   enmerkar-underscore
 certifi==2024.8.30
     # via requests
 charset-normalizer==3.3.2
@@ -18,7 +22,13 @@ django==4.2.16
     # via
     #   -c https://raw.githubusercontent.com/edx/edx-lint/master/edx_lint/files/common_constraints.txt
     #   edx-i18n-tools
+    #   enmerkar
+    #   enmerkar-underscore
 edx-i18n-tools==1.6.2
+    # via -r requirements/translations.in
+enmerkar==0.7.1
+    # via enmerkar-underscore
+enmerkar-underscore==2.3.0
     # via -r requirements/translations.in
 future==1.0.0
     # via pyseeyou

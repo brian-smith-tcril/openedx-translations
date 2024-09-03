@@ -2,6 +2,7 @@
 
 # i18n
 edx-i18n-tools
+enmerkar-underscore
 pyyaml
 
 # transifex
