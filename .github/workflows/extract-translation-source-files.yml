@@ -220,12 +220,12 @@ jobs:
         id: setup_python
         with:
           python-version: '3.11'
-          cache: pip
+          # cache: pip
           # The `edx-platf*rm` wildcard will be expanded to `edx-platform` if its requirement file exists,
           # otherwise it will be omitted
-          cache-dependency-path: |
-            requirements/translations.txt
-            translations/edx-platf*rm/requirements/edx/base.txt
+          # cache-dependency-path: |
+          #   requirements/translations.txt
+          #   translations/edx-platf*rm/requirements/edx/base.txt
 
       # Installs Python requirements from translations.txt
       - name: install requirements
