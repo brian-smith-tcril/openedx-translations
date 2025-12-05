@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 0.1a\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-12-02 00:38+0000\n"
+"POT-Creation-Date: 2025-12-05 02:11+0000\n"
 "PO-Revision-Date: 2023-06-13 09:00+0000\n"
 "Last-Translator: \n"
 "Language-Team: openedx-translation <openedx-translation@googlegroups.com>\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: extensions/filters.py:58
+#: extensions/filters.py:66
 msgid "Reports"
 msgstr ""
 
@@ -33,22 +33,6 @@ msgstr ""
 msgid "At-Risk Learners Dashboard"
 msgstr ""
 
-#: settings/common.py:114
-msgid "Course"
-msgstr ""
-
-#: settings/common.py:122
-msgid "Graded Subsection"
-msgstr ""
-
-#: settings/common.py:130
-msgid "Problem"
-msgstr ""
-
-#: settings/common.py:138
-msgid "Video"
-msgstr ""
-
 #: static/html/superset.html:9
 msgid ""
 "Superset is not configured properly. Please contact your system "
@@ -61,49 +45,51 @@ msgid ""
 "your system administrator."
 msgstr ""
 
-#: views.py:87
+#: utils.py:162
 #, python-brace-format
-msgid "Course not found: '{course_id}'"
+msgid ""
+"Unable to fetch Superset guest token, Superset server error {server_response}"
 msgstr ""
 
-#: views.py:114
+#: utils.py:171
+msgid ""
+"Unable to fetch Superset guest token, mostly likely due to invalid settings."
+"SUPERSET_CONFIG"
+msgstr ""
+
+#: views.py:83
 #, python-brace-format
 msgid "Invalid course id: '{course_id}'"
 msgstr ""
 
-#: views.py:179
+#: views.py:95
 #, python-brace-format
-msgid "Invalid usage id: '{usage_id}'"
+msgid "Course not found: '{course_id}'"
 msgstr ""
 
-#: views.py:208
-#, python-brace-format
-msgid "No dashboard for block type: '{block_type}'"
-msgstr ""
-
-#: xblock.py:48 xblock.py:49
+#: xblock.py:47 xblock.py:48
 msgid "Display name"
 msgstr ""
 
-#: xblock.py:50
+#: xblock.py:49
 msgid "Superset Dashboard"
 msgstr ""
 
-#: xblock.py:55
+#: xblock.py:54
 msgid "Dashboard UUID"
 msgstr ""
 
-#: xblock.py:57
+#: xblock.py:56
 msgid ""
 "The ID of the dashboard to embed. Available in the Superset embed dashboard "
 "UI."
 msgstr ""
 
-#: xblock.py:64
+#: xblock.py:63
 msgid "Filters"
 msgstr ""
 
-#: xblock.py:66
+#: xblock.py:65
 msgid ""
 "List of SQL filters to apply to the\n"
 "               dashboard. E.g: [\"org='edX'\", \"country in ('us', 'co')\"]\n"
