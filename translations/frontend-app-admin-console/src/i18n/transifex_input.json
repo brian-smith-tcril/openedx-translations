@@ -1,0 +1,13 @@
+{
+  "library.authz.manage.page.title": "Library Team Management",
+  "library.authz.breadcrumb.root": "Manage Access",
+  "library.authz.tabs.team": "Team Members",
+  "library.authz.tabs.roles": "Roles",
+  "library.authz.tabs.permissions": "Permissions",
+  "library.authz.team.table.username": "Username",
+  "library.authz.team.table.username.current": "(Me)",
+  "library.team.table.email": "Email",
+  "library.authz.team.table.roles": "Roles",
+  "library.authz.team.table.action": "Action",
+  "authz.libraries.team.table.edit.action": "Edit"
+}
