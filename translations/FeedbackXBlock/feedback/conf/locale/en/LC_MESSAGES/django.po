@@ -128,7 +128,7 @@ msgstr ""
 msgid "Please take a moment to thoughtfully reflect."
 msgstr ""
 
-#: feedback.py:387
+#: feedback.py:389
 msgid "Please vote!"
 msgstr ""
 
@@ -200,7 +200,7 @@ msgid "True"
 msgstr ""
 
 #: templates/html/studio_view.html:39
-msgid "Whether to show the aggregate report to students."
+msgid "Wheter to show the aggregate report to students."
 msgstr ""
 
 #: templates/html/studio_view.html:44
@@ -228,7 +228,7 @@ msgid "Faces (happy to sad)"
 msgstr ""
 
 #: templates/html/studio_view.html:63
-msgid "Faces (sad to happy)"
+msgid "Faces (sad to happy to sad)"
 msgstr ""
 
 #: templates/html/studio_view.html:64
